@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .sidebar {
+      position: fixed;
+      height: 100%;
+      width: 260px;
+      background: #ffffff;
+      padding: 15px;
+      z-index: 99;
+    }
+
+    .logo {
+      font-size: 25px;
+      padding: 0 15px;
+    }
+
+    .sidebar a {
+      color: #000000;
+      text-decoration: none;
+    }
+
+    .menu-content {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      margin-top: 40px;
+      overflow-y: scroll;
+    }
+
+    .menu-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    .menu-items {
+      width: 100%;
+      list-style: none;
+    }
+
+    .menu-title {
+      color: #000000;
+      font-size: 14px;
+      padding: 15px 20px;
+    }
+
+    .item a,
+    .submenu-item {
+      padding: 16px;
+      display: inline-block;
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .item i {
+      font-size: 12px;
+    }
+
+    .item a:hover,
+    .submenu-item:hover,
+    .submenu .menu-title:hover {
+      background: rgba(237, 0, 0, 0.1);
+    }
+
+    .submenu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #000000;
+      cursor: pointer;
+    }
+
+    .submenu {
+      background: #ffffff;
+      display: none;
+      border-radius: 12px;
+      margin-top: 5px;
+      margin-left: 25px;
+    }
+
+    .show-submenu ~ .submenu {
+      display: block;
+    }
+
+    .submenu .menu-title {
+      cursor: pointer;
+    }
+
+    .submenu .menu-title i {
+      margin-right: 10px;
+    }
+
+    .navbar,
+    .main {
+      left: 260px;
+      width: calc(100% - 260px);
+      transition: all 0.5s ease;
+      z-index: 1000;
+    }
+
+    .sidebar.close ~ .navbar,
+    .sidebar.close ~ .main {
+      left: 0;
+      width: 100%;
+    }
+
+    .navbar {
+      position: fixed;
+      color: #000000;
+      padding: 15px 20px;
+      font-size: 25px;
+      background: #ffffff;
+      cursor: pointer;
+    }
+
+    .navbar #sidebar-close {
+      cursor: pointer;
+    }
+
+    .main {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      z-index: 100;
+      background: #ffffff;
+    }
+
+    h1 {
+      font-size: 2em;
+      /* You can change this value as you like */
+    }
+
+    .Content {
+      color: #000000;
+      width: 541px;
+      margin: 0 auto;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      overflow-wrap: break-word;
+    }
+
+    .main h1 {
+      color: #ffffff;
+      font-size: 40px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <a href="#" class="logo">AdminPage</a>
+    <div class="menu-content">
+      <ul class="menu-items">
+        {{#each data}}
+        <li class="item">
+          <div class="submenu-item" id="title-">
+            <span>{{this.title}}</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+
+          <ul class="menu-items submenu">
+            {{#each this.subtitles}}
+            <li class="item">
+              <a href="#">{{this.subtitle}}</a>
+            </li>
+            {{/each}}
+          </ul>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </nav>
+
+  <nav class="navbar">
+    <i class="fa-solid fa-bars" id="sidebar-close"></i>
+  </nav>
+
+  <main class="main">
+    {{#each data}}
+    <div class="item11">
+      {{#each this.subtitles}}
+      <h4>{{this.subtitle}}</h4>
+     
+      <p class="Content">
+        
+        {{this.description}}
+      </p>
+    </div>
+     {{/each}}
+    {{/each}}
+  </main>
+
+  <script>
+    const sidebar = document.querySelector(".sidebar");
+    const sidebarClose = document.querySelector("#sidebar-close");
+    const menuItems = document.querySelectorAll(".submenu-item");
+
+    sidebarClose.addEventListener("click", () => sidebar.classList.toggle("close"));
+
+    menuItems.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        event.preventDefault();
+        const submenu = item.nextElementSibling;
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      const targetElement = event.target;
+      if (!targetElement.classList.contains("submenu-item")) {
+        const submenus = document.querySelectorAll(".menu-items.submenu");
+        submenus.forEach((submenu) => {
+          submenu.style.display = "none";
+        });
+      }
+    });
+  </script>
+</body>
+</html>

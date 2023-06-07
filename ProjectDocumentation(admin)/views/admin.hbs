@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockMarket Documentation</title>
+  <link rel="stylesheet" href="../styles/docs.css" />
+</head>
+<body>
+  <div>
+    <header class="navbar">
+      <div class="navbar-container">
+          <a class="navbar-logo" href="/">ProMarket</a>
+          <div class="navbar-buttons">
+              <a href="/login" class="btn-login">Login</a>
+              <a href="/signup" class="btn-signup">Sign up</a>
+          </div>
+      </div>
+    </header>
+    <div class="docs-wrapper">
+      <nav class="sidebar">
+        <div class="menu-content">
+          <ul class="menu-items">
+            {{#each data}}
+            <li class="subitem">
+              <div class="submenu-item" id="submenu-{{@index}}">
+                <span>{{this.title}}</span>
+                <i class="fas fa-chevron-right arrow-icon"></i>
+              </div>
+              <ul class="submenu">
+                {{#each this.subtitles}}
+                <li class="subitem1">
+                  <a href="#{{../_id}}-{{@../index}}-{{@index}}">{{this.subtitle}}</a>
+                </li>
+                {{/each}}
+              </ul>
+            </li>
+            {{/each}}
+          </ul>
+        </div>
+      </nav>
+
+      <main class="main">
+        {{#each data}}
+        <div class="edit-button-container">
+    <button class="edit-button" onclick="enableInlineEditing()">Enable Inline Editing</button>
+    <button class="update-button" onclick="updateData()">Update</button>
+  </div>
+        <div class="item" id="{{@index}}">
+          <h4>{{this.title}}</h4>
+          <p class="Content" id="titledescription-{{@index}}" contenteditable>{{this.titledescription}}</p>
+          {{#if this.titleimage}}
+            <img src="{{this.titleimage}}" alt="">
+          {{/if}}
+          {{#each this.subtitles}}
+          <div id="{{../_id}}-{{@../index}}-{{@index}}">
+            <h4>{{this.subtitle}}</h4>
+            <p class="Content" id="description-{{../_id}}-{{@../index}}-{{@index}}" contenteditable>
+              {{{this.description}}}
+            </p>
+            {{#if this.imageurl}}
+              <img src="{{this.imageurl}}" alt="">
+            {{/if}}
+          </div>
+          {{/each}}
+        </div>
+        {{/each}}
+        <button class="update-button" onclick="updateData()">Update</button>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+   const submenuItems = document.querySelectorAll(".submenu-item");
+
+    submenuItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const submenu = item.parentNode.querySelector(".submenu");
+        const arrowIcon = item.querySelector(".arrow-icon");
+
+        if (submenu.style.display === "none") {
+          submenu.style.display = "block";
+          item.classList.remove("expanded");
+          item.classList.add("collapsed");
+        } else {
+          submenu.style.display = "none";
+          item.classList.remove("collapsed");
+          item.classList.add("expanded");
+        }
+      });
+    });
+
+      const subitem1Links = document.querySelectorAll(".subitem1 a");
+
+      subitem1Links.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault(); // Prevent default anchor behavior
+          const targetId = link.getAttribute("href").substring(1); // Remove the leading '#' from the href
+          const targetElement = document.getElementById(targetId);
+          const targetPosition = targetElement.offsetTop - 50; // Adjust the offset to leave space for the header
+          window.scrollTo({ top: targetPosition, behavior: "smooth" });
+        });
+      });
+
+      const titleLinks = document.querySelectorAll(".submenu-item");
+
+      titleLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          const titleId = link.getAttribute("id").replace("submenu-", "");
+          const targetElement = document.getElementById(titleId);
+          const targetPosition = targetElement.offsetTop - 50;
+          window.scrollTo({ top: targetPosition, behavior: "smooth" });
+        });
+      });
+    });
+
+   function enableInlineEditing() {
+  const titledescriptions = document.querySelectorAll(".Content[contenteditable]");
+
+  titledescriptions.forEach((titledescription) => {
+    titledescription.contentEditable = true;
+  });
+
+  const descriptions = document.querySelectorAll(".Content ~ p[contenteditable]");
+
+  descriptions.forEach((description) => {
+    description.contentEditable = true;
+  });
+}
+    function updateData() {
+      const items = document.querySelectorAll('.item');
+
+      const updatedData = [];
+
+      items.forEach((item) => {
+        const index = item.id;
+        const titledescription = document.getElementById(`titledescription-${index}`).innerText;
+        const descriptions = document.querySelectorAll(`#description-${index}`);
+        const subtitleData = [];
+
+        descriptions.forEach((description) => {
+          subtitleData.push({
+            subtitle: description.previousElementSibling.innerText,
+            description: description.innerText,
+            imageurl: null, // Replace with the actual image URL if available
+          });
+        });
+
+        updatedData.push({
+          title: item.querySelector('h4').innerText,
+          titledescription: titledescription,
+          titleimage: null, // Replace with the actual image URL if available
+          subtitles: subtitleData,
+        });
+      });
+
+      fetch('/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            alert('Data updated successfully');
+          } else {
+            alert('Failed to update data');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('An error occurred while updating the data');
+        });
+    }
+  </script>
+</body>
+</html>

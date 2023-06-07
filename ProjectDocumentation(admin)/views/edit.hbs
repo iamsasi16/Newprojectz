@@ -1,0 +1,33 @@
+<!-- views/edit.hbs -->
+
+{{#if id}}
+  <!-- Editing a specific item -->
+  <h1>Edit Item with ID {{id}}</h1>
+  <form action="/edit/{{id}}" method="post">
+    <!-- Add input fields here for each field that needs to be edited -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{name}}" required>
+    
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required>{{description}}</textarea>
+    
+    <!-- Add more input fields for other fields to be edited -->
+    
+    <button type="submit">Save Changes</button>
+  </form>
+{{else}}
+  <!-- Editing a specific item with parent and index -->
+  <h1>Edit Item with Parent ID {{parentId}}, Parent Index {{parentIndex}}, and Index {{index}}</h1>
+  <form action="/edit/{{parentId}}/{{parentIndex}}/{{index}}" method="post">
+    <!-- Add input fields here for each field that needs to be edited -->
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{name}}" required>
+    
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required>{{description}}</textarea>
+    
+    <!-- Add more input fields for other fields to be edited -->
+    
+    <button type="submit">Save Changes</button>
+  </form>
+{{/if}}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-logo" href="#">ProMarket</a>
+            {{#if loggedIn}}
+                <div class="navbar-buttons">
+                    <img src="{{profilePhoto}}" class="profile-photo" alt="Profile Photo">
+                </div>
+            {{else}}
+                <div class="navbar-buttons">
+                    <a href="/login" class="btn-login">Login</a>
+                    <a href="/signup" class="btn-signup">Sign up</a>
+                </div>
+            {{/if}}
+        </div>
+    </nav>
+    <section class="kbDoc-banner-support">
+        <div class="banner-content text-center">
+            <div class="banner-content-wrapper">
+                <h1 class="banner-title wow fadeInUp">ProMarket - Finance </h1>
+                <p class="banner-description wow fadeInUp" data-wow-delay="0.3s">
+                    Use Our Documentation to learn about the finance markets -<br>Testing Project
+                </p>
+                <div class="banner-search-form-wrapper wow fadeInUp" data-wow-delay="0.5s">
+                    <form action="" class="banner-search-form">
+                        <input type="text" placeholder="Search or ask a question..">
+                        <button type="submit"><i class="icon_search"></i></button>
+                    </form>
+                    <!-- /.banner-search-form -->
+                </div>
+                <!-- /.banner-search-form-wrapper -->
+            </div>
+            <!-- /.banner-content-wrapper -->
+        </div>
+    </section>
+    <div>
+        <div>
+            <section class="demo_area section_gap" id="demo">
+                <div class="sec_title text-center">
+                    <h5></h5>
+                    <h2>Explore Our Documentation</h2>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="demo_item">
+                                <a href="../docs" class="image">
+                                    <img src="../Images/home/home1.jpg" alt="Light documentation template">
+                                </a>
+                                <a href="../docs"><h4>Money Management</h4></a>
+                            </div>
+                        </div>
+                         <div class="col">
+                            <div class="demo_item">
+                                <a href="kbdoc-html/index.html" class="image">
+                                    <img src="../Images/home/home1.jpg" alt="Light documentation template">
+                                </a>
+                                <a href="kbdoc-html/index.html"><h4>Investment</h4></a>
+                            </div>
+                        </div>
+                         <div class="col">
+                            <div class="demo_item">
+                                <a href="kbdoc-html/index.html" class="image">
+                                    <img src="../Images/home/home1.jpg" alt="Light documentation template">
+                                </a>
+                                <a href="kbdoc-html/index.html"><h4>Stock Market</h4></a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="demo_item">
+                                <a href="kbdoc-html/index-helpdesk.html" class="image">
+                                    <img src="../Images/home/home2.jpg" alt="Support documentation template">
+                                </a>
+                                <a href="kbdoc-html/index-helpdesk.html"><h4>Cryptocurrency</h4></a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="demo_item">
+                                <a href="kbdoc-html/index-cool.html" class="image">
+                                    <img src="../Images/home/home3.jpg" alt="Cool documentation template">
+                                </a>
+                                <a href="kbdoc-html/index-cool.html"><h4>Forex Market</h4></a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="demo_item">
+                                <a href="kbdoc-html/Onepage.html" class="image">
+                                    <img src="../Images/home/onepage.jpg" alt="nah">
+                                </a>
+                                <a href="kbdoc-html/Onepage.html"><h4>FinTech</h4></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
